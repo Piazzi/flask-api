@@ -25,3 +25,6 @@
 
 5. Go to your <a href="http://localhost:5000/"> localhost </a>  to see the application running or use another software of your choice to acess the API, like Postman.
 
+6. Two routes are available: 
+    - <code>/encode/:number</code>  - which should transform a fixed number into a code with a six character number
+    - <code>/decode/:code</code> - which will decode the result of the first route and return the starting number.
