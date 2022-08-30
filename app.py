@@ -2,49 +2,39 @@ from flask import Flask, abort
 
 app = Flask(__name__)
 
-# # Atividade 1
-# Construa uma rota GET /encode/:number que deverá transformar a variável number em um código com um número fixo de seis caracteres.
-# # Atividade 2
-# Construa uma rota GET /decode/:code que irá decodificar o resultado da primeira rota e retornar o number inicial.
-# # Regras
-# - Considere uma variável number inteira com oito dígitos no máximo.
-# - O alfabeto pode conter os seguintes códigos: a-z, A-Z, 0-9, !@#$%*()|-_=+^/?
-# # Exemplo
-# ```
-# GET /encode/1234 return ABCDEF
-# GET /decode/ABCDEF return 1234
+BASE = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%*()|-_=+^/?"
 
 def custom_encode(n):
-    base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%*()|-_=+^/?"
+    """ Returns a 6 digit code for the given number (n) """    
     if n == 0: 
-        return base[0]
-    base_length = len(base)
+        return str(BASE[0]).zfill(6)
+    base_length = len(BASE)
     digits = ''
     while n > 0:
-        digits = base[n % base_length] + digits
-        n  = n // base_length
-    
-    encoded_num_length = len(str(digits))
-    leading_zeros = 0
-    if(encoded_num_length < 8):
-        leading_zeros = 9 - encoded_num_length
-        
-    return str(digits).zfill(leading_zeros)
+        digits = BASE[n % base_length] + digits
+        n = n // base_length
+    return str(digits).zfill(6)
+
+def custom_decode(code):
+    """ Decodes the given code into a number """    
+    baseLength = len(BASE)
+    n = 0
+    for d in code:
+        n = baseLength*n + BASE[:baseLength].index(d)
+    return n
 
 @app.route("/encode/<int:number>")
 def encode(number):
     num_length = len(str(number))
-    
     if(num_length > 8):
         abort(400)
-  
     return custom_encode(number)
 
 @app.route("/decode/<code>")
-def decode(number):
-    if(len(str(number)) != 6):
+def decode(code):
+    if(len(str(code)) != 6):
         abort(400)
-    return code 
+    return str(custom_decode(code)).zfill(6)
 
 if __name__ == "__main__":
     app.run(debug=True) 
