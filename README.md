@@ -23,8 +23,10 @@
 
     We do that so we can see the application in the browser rather than the container
 
-5. Go to your <a href="http://localhost:5000/"> localhost </a>  to see the application running or use another software of your choice to acess the API, like Postman.
+5. Go to your <a href="http://localhost:5000/"> localhost </a>  to see the application running with Swagger UI or use another software of your choice, like Postman.
+
+![image](https://user-images.githubusercontent.com/40416044/187342589-ac118aba-dba5-49b4-bcc9-d39ee289fdc3.png)
 
 6. Two routes are available: 
-    - <code>/encode/:number</code>  - which should transform a fixed number into a code with a six character number
-    - <code>/decode/:code</code> - which will decode the result of the first route and return the starting number.
+    - <code>/encode/:number</code>  - Returns a 6 digit code for the given number (n)
+    - <code>/decode/:code</code> - Decodes the given code into a number
