@@ -17,10 +17,6 @@ class Encode(Resource):
     def get(self, number):
         if(len(str(number)) > 8):
             abort(400)
-        return self.custom_encode(number)
-   
-    def custom_encode(self, number):
-        """ Returns a 6 digit code for the given number """    
         if number == 0: 
             return str(BASE[0]).zfill(6)
         base_length = len(BASE)
@@ -39,15 +35,11 @@ class Decode(Resource):
     def get(self, code):
         if(len(str(code)) != 6):
             abort(400)
-        return str(self.custom_decode(code)).zfill(6)
-
-    def custom_decode(self, code):
-            """ Decodes the given code into a positive integer """    
-            baseLength = len(BASE)
-            number = 0
-            for digit in code:
-                number = baseLength*number + BASE[:baseLength].index(digit)
-            return number
+        baseLength = len(BASE)
+        number = 0
+        for digit in code:
+            number = baseLength*number + BASE[:baseLength].index(digit)
+        return str(number).zfill(6)
     
 if __name__ == '__main__':
     app.run(debug=True) 
